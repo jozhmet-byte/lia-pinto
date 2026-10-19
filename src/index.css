@@ -1,0 +1,294 @@
+@import "tailwindcss";
+
+@theme {
+  --font-serif: 'Playfair Display', 'Cormorant Garamond', Georgia, serif;
+  --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+  /* Custom Brand Palette: Lia Pinto */
+  --color-sand-50: #FAF9F5;
+  --color-sand-100: #F9F8F6;
+  --color-sand-200: #F0EDE6;
+  --color-sand-300: #E4DFD5;
+  --color-sand-400: #C9C2B5;
+
+  /* Terrenal Dimension: Deep Forest / Moss Green */
+  --color-forest-950: #0E1F1A;
+  --color-forest-900: #142922;
+  --color-forest-800: #1A362D;
+  --color-forest-700: #23473C;
+  --color-forest-600: #2F5D4E;
+  --color-forest-100: #E6ECE9;
+  --color-forest-50: #F2F6F4;
+
+  /* Internal Dimension: Deep Indigo */
+  --color-indigo-950: #161833;
+  --color-indigo-900: #1D1F3E;
+  --color-indigo-800: #23254A;
+  --color-indigo-700: #2F3261;
+  --color-indigo-600: #3E427E;
+  --color-indigo-100: #E8E9F4;
+  --color-indigo-50: #F3F4FB;
+
+  /* Power Dimension: Sovereign Gold */
+  --color-gold-600: #A07D37;
+  --color-gold-500: #C5A059;
+  --color-gold-400: #D8B774;
+  --color-gold-300: #E5CD99;
+  --color-gold-100: #F8F3E8;
+  --color-gold-50: #FCFAF5;
+
+  /* Neutral Dark Charcoal */
+  --color-charcoal-900: #232323;
+  --color-charcoal-800: #333333;
+  --color-charcoal-700: #4B4B4B;
+  --color-charcoal-600: #626262;
+  --color-charcoal-500: #7C7C7C;
+}
+
+/* Custom editorial styling */
+.font-display {
+  font-family: var(--font-serif);
+}
+
+.font-body {
+  font-family: var(--font-sans);
+}
+
+/* Texture paper & starry geometry */
+.texture-paper {
+  background-image: radial-gradient(rgba(35, 37, 74, 0.04) 1px, transparent 0);
+  background-size: 24px 24px;
+}
+
+.texture-sacred {
+  background-image: radial-gradient(rgba(197, 160, 89, 0.12) 1px, transparent 0);
+  background-size: 28px 28px;
+}
+
+/* Faint Thematic Pattern Drift Layer */
+@keyframes patternDriftSlow {
+  0% {
+    background-position: 0px 0px;
+  }
+  50% {
+    background-position: -140px 70px;
+  }
+  100% {
+    background-position: 0px 0px;
+  }
+}
+
+.somatic-pattern-layer {
+  background-image: url('/somatic-pattern-bg.jpg');
+  background-repeat: repeat;
+  background-size: 720px auto;
+  animation: patternDriftSlow 36s ease-in-out infinite;
+  will-change: background-position;
+}
+
+/* Somatic Ambient & Dynamic Energy Animations */
+@keyframes auroraDriftOne {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 0.75;
+  }
+  50% {
+    transform: translate3d(-70px, 45px, 0) scale(1.4);
+    opacity: 1;
+  }
+}
+
+@keyframes auroraDriftTwo {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) scale(1) rotate(0deg);
+    opacity: 0.70;
+  }
+  50% {
+    transform: translate3d(80px, -60px, 0) scale(1.45) rotate(15deg);
+    opacity: 1;
+  }
+}
+
+@keyframes auroraDriftThree {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) scale(0.95);
+    opacity: 0.65;
+  }
+  50% {
+    transform: translate3d(-60px, -50px, 0) scale(1.35);
+    opacity: 0.95;
+  }
+}
+
+@keyframes auroraDriftFour {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) scale(1) rotate(0deg);
+    opacity: 0.65;
+  }
+  50% {
+    transform: translate3d(-50px, 70px, 0) scale(1.4) rotate(-15deg);
+    opacity: 0.95;
+  }
+}
+
+@keyframes gridPulseDrift {
+  0%, 100% {
+    opacity: 0.16;
+    transform: scale(1) translateY(0);
+  }
+  50% {
+    opacity: 0.28;
+    transform: scale(1.04) translateY(-12px);
+  }
+}
+
+@keyframes somaticStreamFlow {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+@keyframes somaticStreamReverse {
+  0% {
+    transform: translate3d(-50%, 0, 0);
+  }
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes spinSlow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes energyHaloBreath {
+  0%, 100% {
+    transform: scale(0.93);
+    opacity: 0.50;
+    filter: drop-shadow(0 0 20px rgba(197, 160, 89, 0.45));
+  }
+  50% {
+    transform: scale(1.15);
+    opacity: 0.95;
+    filter: drop-shadow(0 0 45px rgba(216, 183, 116, 0.8));
+  }
+}
+
+@keyframes emberFloatRise {
+  0% {
+    transform: translate3d(0, 50px, 0) scale(0.6);
+    opacity: 0;
+  }
+  15% {
+    opacity: 1;
+  }
+  85% {
+    opacity: 0.95;
+  }
+  100% {
+    transform: translate3d(var(--ember-dx, 35px), -380px, 0) scale(1.3);
+    opacity: 0;
+  }
+}
+
+@keyframes starlightPulse {
+  0%, 100% {
+    opacity: 0.35;
+    transform: scale(0.8);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.8);
+  }
+}
+
+@keyframes energyPulseRipple {
+  0% {
+    transform: scale(0.8);
+    opacity: 0.9;
+  }
+  100% {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+}
+
+.animate-aurora-1 {
+  animation: auroraDriftOne 9s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+.animate-aurora-2 {
+  animation: auroraDriftTwo 11s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+.animate-aurora-3 {
+  animation: auroraDriftThree 10s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+.animate-aurora-4 {
+  animation: auroraDriftFour 12s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+.animate-grid-drift {
+  animation: gridPulseDrift 10s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+.animate-stream-1 {
+  animation: somaticStreamFlow 11s linear infinite;
+  will-change: transform;
+}
+
+.animate-stream-2 {
+  animation: somaticStreamReverse 14s linear infinite;
+  will-change: transform;
+}
+
+.animate-stream-3 {
+  animation: somaticStreamFlow 18s linear infinite;
+  will-change: transform;
+}
+
+.animate-spin-slow {
+  animation: spinSlow 28s linear infinite;
+  will-change: transform;
+}
+
+.animate-spin-reverse-slow {
+  animation: spinSlow 20s linear infinite reverse;
+  will-change: transform;
+}
+
+.animate-halo-breath {
+  animation: energyHaloBreath 6s ease-in-out infinite;
+  will-change: transform, opacity, filter;
+}
+
+.animate-ripple {
+  animation: energyPulseRipple 4s cubic-bezier(0.2, 0.8, 0.4, 1) infinite;
+  will-change: transform, opacity;
+}
+
+.animate-ember {
+  animation: emberFloatRise var(--ember-dur, 7s) ease-in-out infinite;
+  animation-delay: var(--ember-delay, 0s);
+  will-change: transform, opacity;
+}
+
+.animate-twinkle {
+  animation: starlightPulse var(--twinkle-dur, 3s) ease-in-out infinite;
+  animation-delay: var(--twinkle-delay, 0s);
+  will-change: transform, opacity;
+}
