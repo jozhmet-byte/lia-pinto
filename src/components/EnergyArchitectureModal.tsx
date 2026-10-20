@@ -12,7 +12,8 @@ import {
   Compass,
   Calendar,
   X,
-  Check
+  Check,
+  Loader2
 } from 'lucide-react';
 import { dimensionsData, questionsData, scaleOptions } from '../data/energyQuizData';
 import { DimensionScoreResult } from '../types';
@@ -36,6 +37,7 @@ export const EnergyArchitectureModal: React.FC<EnergyArchitectureModalProps> = (
   const [answers, setAnswers] = useState<Record<number, number>>({});
   const [userInfo, setUserInfo] = useState({ name: '', email: '' });
   const [emailError, setEmailError] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [autoAdvanceTimer, setAutoAdvanceTimer] = useState<NodeJS.Timeout | null>(null);
 
   const scrollContainerRef = useRef<HTMLDivElement>(null);
@@ -132,7 +134,7 @@ export const EnergyArchitectureModal: React.FC<EnergyArchitectureModalProps> = (
 
   const lowestDimension = getLowestDimension();
 
-  const handleCaptureSubmit = (e: React.FormEvent) => {
+  const handleCaptureSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!userInfo.email || !userInfo.email.includes('@') || !userInfo.email.includes('.')) {
       setEmailError('Por favor ingresa un correo electrónico válido');
@@ -143,7 +145,47 @@ export const EnergyArchitectureModal: React.FC<EnergyArchitectureModalProps> = (
       return;
     }
     setEmailError('');
-    setCurrentStep(33); // Move to Results
+    setIsSubmitting(true);
+
+    const webhookUrl =
+      import.meta.env.VITE_GOOGLE_SHEETS_WEBHOOK_URL ||
+      'https://script.google.com/macros/s/AKfycbwTyJwzdHTHlEluPyXWB5Scz9AbovRpqveJSexTSJw4yPEpqZGyh4rqZGNoO9zcwMSt/exec';
+
+    const payload = {
+      name: userInfo.name.trim(),
+      email: userInfo.email.trim(),
+      lowestDimension: lowestDimension.meta.name,
+      archetype: lowestDimension.meta.theme.archetypeBadge,
+      lowestPercentage: lowestDimension.percentage,
+      scores: {
+        d1: calculatedScores[0]?.percentage ?? 0,
+        d2: calculatedScores[1]?.percentage ?? 0,
+        d3: calculatedScores[2]?.percentage ?? 0,
+        d4: calculatedScores[3]?.percentage ?? 0,
+        d5: calculatedScores[4]?.percentage ?? 0,
+        d6: calculatedScores[5]?.percentage ?? 0,
+        d7: calculatedScores[6]?.percentage ?? 0,
+        d8: calculatedScores[7]?.percentage ?? 0
+      }
+    };
+
+    try {
+      if (webhookUrl) {
+        await fetch(webhookUrl, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: {
+            'Content-Type': 'text/plain;charset=utf-8'
+          },
+          body: JSON.stringify(payload)
+        });
+      }
+    } catch (err) {
+      console.warn('Error al sincronizar respuestas con Google Sheets:', err);
+    } finally {
+      setIsSubmitting(false);
+      setCurrentStep(33); // Move to Results
+    }
   };
 
   const handleReset = () => {
@@ -440,10 +482,20 @@ export const EnergyArchitectureModal: React.FC<EnergyArchitectureModalProps> = (
                     <div className="pt-2">
                       <button
                         type="submit"
-                        className="w-full py-4 px-6 text-xs font-semibold uppercase tracking-wider text-[#1A362D] bg-[#C5A059] hover:bg-[#D8B774] active:bg-[#A07D37] transition-all rounded-sm shadow-md flex items-center justify-center gap-2"
+                        disabled={isSubmitting}
+                        className="w-full py-4 px-6 text-xs font-semibold uppercase tracking-wider text-[#1A362D] bg-[#C5A059] hover:bg-[#D8B774] active:bg-[#A07D37] disabled:opacity-75 transition-all rounded-sm shadow-md flex items-center justify-center gap-2"
                       >
-                        <span>Ver mi Mapa de Arquitectura Energética</span>
-                        <ArrowRight className="w-4 h-4" />
+                        {isSubmitting ? (
+                          <>
+                            <Loader2 className="w-4 h-4 animate-spin text-[#1A362D]" />
+                            <span>Generando tu Mapa...</span>
+                          </>
+                        ) : (
+                          <>
+                            <span>Ver mi Mapa de Arquitectura Energética</span>
+                            <ArrowRight className="w-4 h-4" />
+                          </>
+                        )}
                       </button>
                     </div>
 
